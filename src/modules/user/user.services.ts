@@ -7,6 +7,7 @@ import verifyPassword from '../../utils/verifyPassword';
 import ConnectPrisma from '../ConnectPrisma';
 import { IDonarRequest, IUserRegister } from './user.interfaces';
 import { TBloodGroup } from '../../interfaces/common';
+import { bloodGroupList } from '../../constants';
 
 class UserServices extends ConnectPrisma {
   /**
@@ -93,7 +94,7 @@ class UserServices extends ConnectPrisma {
 
     if (query.searchTerm) {
       filterQuery.push({
-        OR: ['name', 'email', 'location', 'bloodType'].map((field) => ({
+        OR: ['name', 'email', 'location'].map((field) => ({
           [field]: {
             contains: query.searchTerm,
             mode: 'insensitive',
@@ -104,7 +105,7 @@ class UserServices extends ConnectPrisma {
 
     const bloodType = query.bloodType as TBloodGroup;
 
-    if (bloodType) {
+    if (bloodType && bloodGroupList.includes(bloodType)) {
       filterQuery.push({
         bloodType: { equals: bloodType as TBloodGroup },
       });
@@ -147,6 +148,7 @@ class UserServices extends ConnectPrisma {
       select: {
         id: true,
         name: true,
+        username: true,
         email: true,
         bloodType: true,
         location: true,
