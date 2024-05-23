@@ -15,7 +15,7 @@ model User {
   username     String       @unique
   email        String       @unique
   role         UserRole     @default(USER)
-  status       UserStatus   @default(INACTIVE)
+  status       UserStatus   @default(ACTIVE)
   password     String
   bloodType    BloodType
   location     String

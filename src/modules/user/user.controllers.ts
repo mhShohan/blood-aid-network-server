@@ -49,6 +49,21 @@ class UserControllers {
     });
   });
 
+
+  /**
+   * Get donor with id
+   */
+  getSingleDonor = asyncHandler(async (req, res) => {
+    const result = await this.services.getSingleDonor(req.params.id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'Donors successfully found!',
+      success: true,
+      data: result
+    });
+  });
+
   /**
    * Create a donation request
    */

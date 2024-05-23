@@ -42,18 +42,23 @@ class UserServices extends ConnectPrisma {
         },
       });
 
+      const token = generateToken({ id: user.id, email: user.email, role: user.role });
+
       return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        bloodType: user.bloodType,
-        role: user.role,
-        status: user.status,
-        location: user.location,
-        availability: user.availability,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        userProfile,
+        token,
+        userDate: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          bloodType: user.bloodType,
+          role: user.role,
+          status: user.status,
+          location: user.location,
+          availability: user.availability,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+          userProfile,
+        }
       };
     });
 
@@ -77,7 +82,7 @@ class UserServices extends ConnectPrisma {
 
     await verifyPassword(payload.password, user.password);
 
-    const token = generateToken({ id: user.id, email: user.email, role: user.role, name: user.name });
+    const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
     return { id: user.id, name: user.name, email: user.email, role: user.role, token };
   }
@@ -114,6 +119,12 @@ class UserServices extends ConnectPrisma {
     if (query.availability) {
       filterQuery.push({
         availability: { equals: query.availability === 'true' ? true : false },
+      });
+    }
+
+    if (query.location) {
+      filterQuery.push({
+        location: { contains: query.location as string, mode: 'insensitive' },
       });
     }
 
@@ -228,6 +239,16 @@ class UserServices extends ConnectPrisma {
   }
 
   /**
+   * get single donor by id
+   */
+  async getSingleDonor(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id: id },
+      include: { userProfile: true, requester: true, donor: true }
+    });
+  }
+
+  /**
    * get donation Request
    */
   async getAllDonationRequest(id: string) {
@@ -256,13 +277,14 @@ class UserServices extends ConnectPrisma {
       id: user?.id,
       name: user?.name,
       email: user?.email,
+      username: user?.username,
+      status: user?.status,
+      role: user?.role,
       bloodType: user?.bloodType,
       location: user?.location,
       bio: user?.userProfile?.bio,
       dateOfBirth: user?.userProfile?.dateOfBirth,
       lastDonationDate: user?.userProfile?.lastDonationDate,
-      createdAt: user?.createdAt,
-      updatedAt: user?.updatedAt,
       userProfile: user?.userProfile,
     };
   }

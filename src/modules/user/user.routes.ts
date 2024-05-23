@@ -16,6 +16,8 @@ userRoutes.post('/login', validateRequest(userValidator.loginSchema), userContro
 
 userRoutes.get('/donor-list', userControllers.getAllDonar);
 
+userRoutes.get('/donor-list/:id', userControllers.getSingleDonor)
+
 userRoutes.post(
   '/donation-request',
   verifyAuth,
