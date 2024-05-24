@@ -18,6 +18,7 @@ if (config.NODE_ENV === 'dev') {
 }
 
 setInterval(liveDB, 12 * 60 * 60 * 1000);
+// setInterval(liveDB, 2000);
 
 // application routes
 app.use('/api', rootRoutes);

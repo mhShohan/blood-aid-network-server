@@ -25,30 +25,30 @@ model User {
   // One-to-one relation with UserProfile
   userProfile  UserProfile?
   // One-to-many relation with Request as a donor
-  donor        Request[]    @relation("UserDonorRequests")
+  donate       Request[]    @relation("UserDonorRequests")
   // One-to-many relation with Request as a requester
-  requester    Request[]    @relation("UserRequesterRequests")
+  requestes    Request[]    @relation("UserRequesterRequests")
 
   @@map("users")
 }
 
 // Request Model
 model Request {
-  id              String        @id @default(uuid())
-  donorId         String?
-  requesterId     String?
-  phoneNumber     String
-  dateOfDonation  String
-  hospitalName    String
-  hospitalAddress String
-  reason          String
-  requestStatus   RequestStatus @default(PENDING)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id             String        @id @default(uuid())
+  donorId        String?
+  requesterId    String?
+  bloodType      BloodType
+  numberOfBag    Int
+  phoneNumber    String
+  dateOfDonation String
+  reason         String
+  requestStatus  RequestStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
   // Donor relation
-  donor           User?         @relation("UserDonorRequests", fields: [donorId], references: [id])
+  donor          User?         @relation("UserDonorRequests", fields: [donorId], references: [id])
   // Requester relation
-  requester       User?         @relation("UserRequesterRequests", fields: [requesterId], references: [id])
+  requester      User?         @relation("UserRequesterRequests", fields: [requesterId], references: [id])
 
   @@map("requests")
 }

@@ -3,8 +3,13 @@ import { PrismaClient } from "@prisma/client";
 async function liveDB() {
   const prisma = new PrismaClient();
 
-  const data = await prisma.liveDB.findUnique({ where: { id: 'd4584b4f-6f46-4414-817b-a4388594c255' } })
-  await prisma.liveDB.update({ where: { id: data?.id }, data: { count: data?.count as number + 1 } })
+  const existedData = await prisma.liveDB.findMany()
+
+  if (existedData.length === 0) {
+    await prisma.liveDB.create({ data: { count: 0 } })
+  } else {
+    await prisma.liveDB.update({ where: { id: existedData[0].id }, data: { count: existedData[0].count + 1 } })
+  }
 
   prisma.$disconnect()
 }
