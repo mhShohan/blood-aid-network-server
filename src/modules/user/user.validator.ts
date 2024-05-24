@@ -44,5 +44,23 @@ const updateDonationStatusSchema = z.object({
   }),
 });
 
-const authValidator = { registerSchema, loginSchema, donationSchema, updateDonationStatusSchema };
+const updateUserSchema = z.object({
+  user: z.object({
+    name: z.string().optional(),
+    email: z.string().email().optional(),
+    username: z.string().optional(),
+    bloodType: z.enum(bloodGroupList as [string, ...string[]]).optional(),
+    location: z.string().optional(),
+    availability: z.boolean().optional(),
+  }).optional(),
+  userProfile: z.object({
+    id: z.string().optional(),
+    bio: z.string().optional(),
+    profilePicture: z.string().optional(),
+    dateOfBirth: z.string().optional(),
+    lastDonationDate: z.string().optional(),
+  }).optional(),
+});
+
+const authValidator = { registerSchema, loginSchema, donationSchema, updateDonationStatusSchema, updateUserSchema };
 export default authValidator;

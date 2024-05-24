@@ -34,6 +34,7 @@ userRoutes.put(
   userControllers.updateDonationRequestStatus,
 );
 
-userRoutes.get('/my-profile', verifyAuth, userControllers.getProfile);
+userRoutes.get('/profile/self', verifyAuth, userControllers.getProfile);
+userRoutes.patch('/profile/:id', verifyAuth, userControllers.updateProfile);
 
 export default userRoutes;

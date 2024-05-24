@@ -119,6 +119,20 @@ class UserControllers {
       data: result,
     });
   });
+
+  /**
+   * update My profile
+   */
+  updateProfile = asyncHandler(async (req, res) => {
+    const result = await this.services.updateProfile(req.params.id, req.body);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'Profile retrieved successfully',
+      success: true,
+      data: result,
+    });
+  });
 }
 
 const userControllers = new UserControllers();

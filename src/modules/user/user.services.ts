@@ -5,7 +5,7 @@ import generateToken from '../../utils/generateToken';
 import hashPassword from '../../utils/hashPassword';
 import verifyPassword from '../../utils/verifyPassword';
 import ConnectPrisma from '../ConnectPrisma';
-import { IDonarRequest, IUserRegister } from './user.interfaces';
+import { IDonarRequest, IUserProfile, IUserRegister } from './user.interfaces';
 import { TBloodGroup } from '../../interfaces/common';
 import { bloodGroupList } from '../../constants';
 
@@ -263,6 +263,27 @@ class UserServices extends ConnectPrisma {
   }
 
   /**
+   * update my profile
+   */
+
+  async updateProfile(id: string, payload: IUserProfile) {
+    const { user, userProfile: { id: userProfileId, ...userProfile } } = payload;
+
+    if (!userProfile.profilePicture) {
+      delete userProfile.profilePicture
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      const updatedUser = await tx.user.update({ where: { id }, data: user });
+      const updatedProfile = await tx.userProfile.update({ where: { id: userProfileId }, data: userProfile });
+
+      return { updatedUser, updatedProfile }
+    })
+
+    return result
+  }
+
+  /**
    * Get my profile
    */
   async getProfile(id: string) {
@@ -280,6 +301,7 @@ class UserServices extends ConnectPrisma {
       username: user?.username,
       status: user?.status,
       role: user?.role,
+      availability: user?.availability,
       bloodType: user?.bloodType,
       location: user?.location,
       bio: user?.userProfile?.bio,
