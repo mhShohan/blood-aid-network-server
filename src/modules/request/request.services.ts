@@ -1,6 +1,7 @@
 import { RequestStatus } from '@prisma/client';
 import ConnectPrisma from '../ConnectPrisma';
 import { IBloodRequest } from './request.interface';
+import APIError from '../../errorHandler/APIError';
 
 class RequestServices extends ConnectPrisma {
   /**
@@ -47,6 +48,28 @@ class RequestServices extends ConnectPrisma {
    */
   async updateDonationRequestStatus(id: string, payload: { status: RequestStatus }) {
     return this.prisma.request.update({ where: { id }, data: { requestStatus: payload.status } });
+  }
+
+  /**
+   * Update donation request status
+   */
+  async requestToDonate(payload: { donorId: string, requesterId: string, body: Record<string, unknown> }) {
+    const donor = await this.prisma.user.findUnique({ where: { id: payload.donorId } });
+    if (!donor) throw new APIError(404, 'Donor not found');
+
+    const requestData = await this.prisma.request.create({
+      data: {
+        donorId: payload.donorId,
+        requesterId: payload.requesterId,
+        bloodType: donor.bloodType,
+        numberOfBag: payload.body.numberOfBag as number,
+        phoneNumber: payload.body.phoneNumber as string,
+        dateOfDonation: payload.body.dateOfDonation as string,
+        reason: payload.body.reason as string,
+      }
+    });
+
+    return requestData
   }
 
   /**

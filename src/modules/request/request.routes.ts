@@ -13,6 +13,13 @@ requestRoutes.post(
   requestControllers.createDonationRequest
 );
 
+requestRoutes.post(
+  '/:id',
+  verifyAuth,
+  validateRequest(requestValidators.requestToDonateSchema),
+  requestControllers.requestToDonate
+);
+
 requestRoutes.get(
   '/',
   requestControllers.getAllDonationRequest

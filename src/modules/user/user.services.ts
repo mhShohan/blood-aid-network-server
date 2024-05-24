@@ -265,7 +265,11 @@ class UserServices extends ConnectPrisma {
   async getAllDonateHistory(id: string) {
     const donor = await this.prisma.user.findUnique({
       where: { id }, include: {
-        donate: true
+        donate: {
+          include: {
+            requester: true
+          }
+        }
       }
     });
 

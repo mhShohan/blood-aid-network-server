@@ -10,6 +10,13 @@ const bloodRequestSchema = z.object({
   reason: z.string({ required_error: 'reason field is required' }),
 });
 
+const requestToDonateSchema = z.object({
+  numberOfBag: z.number({ required_error: 'number of bag field is required' }).min(1, { message: 'number of bag must be greater than 0' }),
+  phoneNumber: z.string({ required_error: 'phone number field is required' }),
+  dateOfDonation: z.string({ required_error: 'date field is required' }),
+  reason: z.string({ required_error: 'reason field is required' }),
+});
 
-const requestValidators = { bloodRequestSchema };
+
+const requestValidators = { bloodRequestSchema, requestToDonateSchema };
 export default requestValidators;

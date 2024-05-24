@@ -49,6 +49,25 @@ class RequestControllers {
     });
   });
 
+  /**
+   * request To Donate
+   */
+  requestToDonate = asyncHandler(async (req, res) => {
+    const payload = {
+      donorId: req.params.id,
+      requesterId: req.user.id,
+      body: req.body
+    }
+    const result = await this.services.requestToDonate(payload);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'Donation request status successfully updated',
+      success: true,
+      data: result,
+    });
+  });
+
 
 }
 
