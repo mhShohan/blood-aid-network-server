@@ -190,53 +190,49 @@ class UserServices extends ConnectPrisma {
    * donation Request
    */
   async donationRequest(payload: IDonarRequest) {
-    if (!payload.donorId && !payload.requesterId) throw new APIError(400, 'DonorId or RequesterId is required!');
+    console.log(payload)
+    // if (!payload.donorId && !payload.requesterId) throw new APIError(400, 'DonorId or RequesterId is required!');
 
-    const data = {
-      donorId: payload.donorId,
-      requesterId: payload.requesterId,
-      phoneNumber: payload.phone_number,
-      dateOfDonation: payload.date,
-      hospitalName: payload.hospital_name,
-      hospitalAddress: payload.hospital_address,
-      reason: payload.reason,
-    };
+    // const data = {
+    //   donorId: payload.donorId,
+    //   requesterId: payload.requesterId,
+    //   phoneNumber: payload.phoneNumber,
+    //   dateOfDonation: payload.dateOfDonation,
+    // };
 
-    const requestData = await this.prisma.request.create({ data });
-    const id = requestData.donorId || requestData.requesterId
-    const user = await this.prisma.user.findUnique({
-      where: { id: id! },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        bloodType: true,
-        location: true,
-        availability: true,
-        createdAt: true,
-        updatedAt: true,
-        userProfile: true,
-      },
-    });
+    // const requestData = await this.prisma.request.create({ data });
+    // const id = requestData.donorId || requestData.requesterId
+    // const user = await this.prisma.user.findUnique({
+    //   where: { id: id! },
+    //   select: {
+    //     id: true,
+    //     name: true,
+    //     email: true,
+    //     bloodType: true,
+    //     location: true,
+    //     availability: true,
+    //     createdAt: true,
+    //     updatedAt: true,
+    //     userProfile: true,
+    //   },
+    // });
 
-    const result = {
-      id: requestData.id,
-      donorId: requestData.donorId,
-      requesterId: requestData.requesterId,
-      name: user?.name,
-      blood_type: user?.bloodType,
-      phone_number: requestData.phoneNumber,
-      date: requestData.dateOfDonation,
-      hospital_name: requestData.hospitalName,
-      hospital_address: requestData.hospitalAddress,
-      reason: requestData.reason,
-      request_status: requestData.requestStatus,
-      createdAt: requestData.createdAt,
-      updatedAt: requestData.updatedAt,
-      donor: user,
-    };
+    // const result = {
+    //   id: requestData.id,
+    //   donorId: requestData.donorId,
+    //   requesterId: requestData.requesterId,
+    //   name: user?.name,
+    //   blood_type: user?.bloodType,
+    //   phone_number: requestData.phoneNumber,
+    //   date: requestData.dateOfDonation,
+    //   reason: requestData.reason,
+    //   request_status: requestData.requestStatus,
+    //   createdAt: requestData.createdAt,
+    //   updatedAt: requestData.updatedAt,
+    //   donor: user,
+    // };
 
-    return result;
+    // return result;
   }
 
   /**

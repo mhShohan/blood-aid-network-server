@@ -13,5 +13,10 @@ requestRoutes.post(
   requestControllers.createDonationRequest
 );
 
+requestRoutes.get(
+  '/',
+  requestControllers.getAllDonationRequest
+);
+
 
 export default requestRoutes;

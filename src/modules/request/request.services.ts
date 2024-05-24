@@ -52,8 +52,36 @@ class RequestServices extends ConnectPrisma {
   /**
    * get donation Request
    */
-  async getAllDonationRequest(id: string) {
-    return this.prisma.request.findMany({ where: { donorId: id }, include: { requester: true } });
+  async getAllDonationRequest(query: Record<string, unknown>) {
+    const page = query.page ? Number(query.page) : 1;
+    const limit = query.limit ? Number(query.limit) : 9;
+    const skip = (page - 1) * limit;
+
+
+    const requests = await this.prisma.request.findMany({
+      skip,
+      take: limit,
+      where: { requestStatus: 'PENDING' },
+      include: {
+        requester: {
+          include: {
+            userProfile: true,
+          }
+        }
+      }
+    });
+
+    const total = await this.prisma.request.count({ where: { requestStatus: 'PENDING' } });
+
+    return {
+      data: requests,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPage: Math.ceil(total / limit),
+      },
+    };
   }
 
 }

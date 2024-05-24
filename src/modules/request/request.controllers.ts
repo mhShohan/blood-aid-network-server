@@ -24,13 +24,14 @@ class RequestControllers {
    * Get all Donation Request
    */
   getAllDonationRequest = asyncHandler(async (req, res) => {
-    const result = await this.services.getAllDonationRequest(req.user.id);
+    const result = await this.services.getAllDonationRequest(req.query);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       message: 'Donation requests retrieved successfully',
       success: true,
-      data: result,
+      meta: result.meta,
+      data: result.data,
     });
   });
 
