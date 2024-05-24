@@ -1,29 +1,18 @@
 import { RequestStatus } from '@prisma/client';
-import APIError from '../../errorHandler/APIError';
 import ConnectPrisma from '../ConnectPrisma';
-import { IDonarRequest } from '../user/user.interfaces';
+import { IBloodRequest } from './request.interface';
 
 class RequestServices extends ConnectPrisma {
   /**
    * donation Request
    */
-  async donationRequest(payload: IDonarRequest) {
-    if (!payload.donorId && !payload.requesterId) throw new APIError(400, 'DonorId or RequesterId is required!');
+  async createDonationRequest(userId: string, payload: IBloodRequest) {
+    payload.requesterId = userId;
 
-    const data = {
-      donorId: payload.donorId,
-      requesterId: payload.requesterId,
-      phoneNumber: payload.phone_number,
-      dateOfDonation: payload.date,
-      hospitalName: payload.hospital_name,
-      hospitalAddress: payload.hospital_address,
-      reason: payload.reason,
-    };
+    const requestData = await this.prisma.request.create({ data: payload })
 
-    const requestData = await this.prisma.request.create({ data });
-    const id = requestData.donorId || requestData.requesterId
     const user = await this.prisma.user.findUnique({
-      where: { id: id! },
+      where: { id: userId },
       select: {
         id: true,
         name: true,
@@ -31,8 +20,6 @@ class RequestServices extends ConnectPrisma {
         bloodType: true,
         location: true,
         availability: true,
-        createdAt: true,
-        updatedAt: true,
         userProfile: true,
       },
     });
@@ -42,13 +29,11 @@ class RequestServices extends ConnectPrisma {
       donorId: requestData.donorId,
       requesterId: requestData.requesterId,
       name: user?.name,
-      blood_type: user?.bloodType,
-      phone_number: requestData.phoneNumber,
-      date: requestData.dateOfDonation,
-      hospital_name: requestData.hospitalName,
-      hospital_address: requestData.hospitalAddress,
+      bloodType: user?.bloodType,
+      phoneNumber: requestData.phoneNumber,
+      dateOfDonation: requestData.dateOfDonation,
       reason: requestData.reason,
-      request_status: requestData.requestStatus,
+      requestStatus: requestData.requestStatus,
       createdAt: requestData.createdAt,
       updatedAt: requestData.updatedAt,
       donor: user,

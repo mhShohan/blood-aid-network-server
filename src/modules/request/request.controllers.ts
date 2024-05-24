@@ -9,12 +9,12 @@ class RequestControllers {
   /**
    * Create a donation request
    */
-  donationRequest = asyncHandler(async (req, res) => {
-    const result = await this.services.donationRequest(req.body);
+  createDonationRequest = asyncHandler(async (req, res) => {
+    const result = await this.services.createDonationRequest(req.user.id, req.body);
 
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
-      message: 'Request successfully made!',
+      message: 'Blood Request are successfully made!',
       success: true,
       data: result,
     });

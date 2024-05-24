@@ -1,3 +1,4 @@
+import { BloodType } from "@prisma/client";
 import { bloodGroup } from "../../constants";
 
 export interface IUserRegister {
@@ -16,10 +17,9 @@ export interface IDonarRequest {
   donorId: string;
   requesterId: string;
   name: string;
-  blood_type: string;
-  phone_number: string;
-  date: string;
-  hospital_name: string;
-  hospital_address: string;
+  bloodType: BloodType;
+  phoneNumber: string;
+  dateOfDonation: string;
+  numberOfBag: number;
   reason: string;
 }

@@ -21,7 +21,7 @@ setInterval(liveDB, 12 * 60 * 60 * 1000);
 // setInterval(liveDB, 2000);
 
 // application routes
-app.use('/api', rootRoutes);
+app.use('/api/v1', rootRoutes);
 
 //Not Found Route
 app.use(notFound);

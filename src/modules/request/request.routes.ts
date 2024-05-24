@@ -1,10 +1,17 @@
 import { Router } from 'express';
-// import validateRequest from '../../middlewares/validateRequest';
-// import verifyAuth from '../../middlewares/verifyAuth';
+import validateRequest from '../../middlewares/validateRequest';
+import verifyAuth from '../../middlewares/verifyAuth';
+import requestValidators from './request.validator';
+import requestControllers from './request.controllers';
 
 const requestRoutes = Router();
 
-requestRoutes.post('/');
+requestRoutes.post(
+  '/',
+  verifyAuth,
+  validateRequest(requestValidators.bloodRequestSchema),
+  requestControllers.createDonationRequest
+);
 
 
 export default requestRoutes;
