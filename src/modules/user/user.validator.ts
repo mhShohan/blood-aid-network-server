@@ -62,5 +62,19 @@ const updateUserSchema = z.object({
   }).optional(),
 });
 
-const authValidator = { registerSchema, loginSchema, donationSchema, updateDonationStatusSchema, updateUserSchema };
+const changePasswordSchema = z.object({
+  oldPassword: z.string({ required_error: 'Old Password field is required' }),
+  newPassword: z
+    .string({ required_error: 'New Password field is required' })
+    .min(6, { message: 'Password must have 6 characters' }),
+});
+
+const authValidator = {
+  registerSchema,
+  loginSchema,
+  donationSchema,
+  updateDonationStatusSchema,
+  changePasswordSchema,
+  updateUserSchema
+};
 export default authValidator;

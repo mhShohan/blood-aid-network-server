@@ -35,6 +35,7 @@ userRoutes.put(
 );
 
 userRoutes.get('/profile/self', verifyAuth, userControllers.getProfile);
-userRoutes.patch('/profile/:id', verifyAuth, userControllers.updateProfile);
+userRoutes.patch('/profile/change-password', verifyAuth, validateRequest(userValidator.changePasswordSchema), userControllers.changePassword);
+userRoutes.patch('/profile/:id', verifyAuth, validateRequest(userValidator.updateUserSchema), userControllers.updateProfile);
 
 export default userRoutes;

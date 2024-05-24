@@ -133,6 +133,20 @@ class UserControllers {
       data: result,
     });
   });
+
+  /**
+   * Change password
+   */
+  changePassword = asyncHandler(async (req, res) => {
+    const result = await this.services.changePassword(req.user.id, req.body);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'Profile retrieved successfully',
+      success: true,
+      data: result,
+    });
+  });
 }
 
 const userControllers = new UserControllers();

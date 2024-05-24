@@ -8,6 +8,7 @@ import ConnectPrisma from '../ConnectPrisma';
 import { IDonarRequest, IUserProfile, IUserRegister } from './user.interfaces';
 import { TBloodGroup } from '../../interfaces/common';
 import { bloodGroupList } from '../../constants';
+import bcrypt from 'bcrypt';
 
 class UserServices extends ConnectPrisma {
   /**
@@ -265,7 +266,6 @@ class UserServices extends ConnectPrisma {
   /**
    * update my profile
    */
-
   async updateProfile(id: string, payload: IUserProfile) {
     const { user, userProfile: { id: userProfileId, ...userProfile } } = payload;
 
@@ -281,6 +281,22 @@ class UserServices extends ConnectPrisma {
     })
 
     return result
+  }
+
+  /**
+   * change password
+   */
+  async changePassword(id: string, payload: { oldPassword: string; newPassword: string }) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+
+    const passwordMatched = await bcrypt.compare(payload.oldPassword, user?.password as string);
+    if (!passwordMatched) throw new APIError(400, 'Old password is incorrect!');
+
+    const password = await hashPassword(payload.newPassword);
+
+    await this.prisma.user.update({ where: { id }, data: { password } })
+
+    return
   }
 
   /**
