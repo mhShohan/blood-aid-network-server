@@ -93,6 +93,20 @@ class UserControllers {
   });
 
   /**
+   * Get all Donation history
+   */
+  getAllDonateHistory = asyncHandler(async (req, res) => {
+    const result = await this.services.getAllDonateHistory(req.user.id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'Donation requests retrieved successfully',
+      success: true,
+      data: result,
+    });
+  });
+
+  /**
    * Update Donation request status
    */
   updateDonationRequestStatus = asyncHandler(async (req, res) => {

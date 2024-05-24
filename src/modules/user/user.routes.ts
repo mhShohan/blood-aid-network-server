@@ -26,6 +26,7 @@ userRoutes.post(
 );
 
 userRoutes.get('/donation-request', verifyAuth, userControllers.getAllDonationRequest);
+userRoutes.get('/donation-history', verifyAuth, userControllers.getAllDonateHistory);
 
 userRoutes.put(
   '/donation-request/:id',
