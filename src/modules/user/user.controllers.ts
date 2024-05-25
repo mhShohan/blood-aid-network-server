@@ -161,6 +161,49 @@ class UserControllers {
       data: result,
     });
   });
+
+
+  /**
+   * get All Users (only for admin)
+   */
+  getAllUsers = asyncHandler(async (req, res) => {
+    const result = await this.services.getAllUsers(req.query);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'All user retrieved successfully',
+      success: true,
+      meta: result.meta,
+      data: result.data,
+    });
+  });
+
+  /**
+   * update role (only for admin)
+   */
+  updateRole = asyncHandler(async (req, res) => {
+    const result = await this.services.updateRole(req.params.id, req.body);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'update role successfully',
+      success: true,
+      data: result
+    });
+  });
+  /**
+   * update Status (only for admin)
+   */
+  updateStatus = asyncHandler(async (req, res) => {
+    const result = await this.services.updateStatus(req.params.id, req.body);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'update status successfully',
+      success: true,
+      data: result
+    });
+  });
 }
 
 const userControllers = new UserControllers();

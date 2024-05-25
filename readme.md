@@ -15,15 +15,20 @@
 - Step 1: create a `.env` file at root of the directory and include the environment variables as following bellow
 
   ```bash
-    NODE_ENV=prod
-
+    NODE_ENV=dev
     PORT=8000
+    JWT_ACCESS_SECRET="4d1216db387c24a42ce2f1f9dbbf106fc5011660b107d988202d47016cf4f7fc14dfa677a4c5a504b96f86cdece62e7bfd19246de25d6840126edb4a4a1587a0"
 
-    JWT_ACCESS_SECRET=4d1216db387c24a42ce2f1f9dbbf106fc5011660b107d988202d47016cf4f7fc14dfa677a4c5a504b96f86cdece62e7bfd19246de25d6840126edb4a4a1587a0
+    SUPABASE_PASS=9zRf84HEFPYYrjLs
+    BLOOD_DONATION_PASS=rpCH7S2fIm896iQ0
 
-    DATABASE_URL=postgres://postgres.voczdhigqqtcrymmonnf:Ph2fb5M_$s_yT~y@aws-0-ap-southeast-1.poolersupabase.com:6543/postgres?pgbouncer=true&connection_limit=1
 
-    DIRECT_URL=postgres://postgres.voczdhigqqtcrymmonnf:Ph2fb5M_$s_yT~y@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?pgbouncer=true&connection_limit=1
+    # Connect to Supabase via connection pooling with Supavisor.
+    DATABASE_URL="postgres://postgres.gkhfwmeijcutxhzhtjge:rpCH7S2fIm896iQ0@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+
+    # Direct connection to the database. Used for migrations.
+    DIRECT_URL="postgres://postgres.gkhfwmeijcutxhzhtjge:rpCH7S2fIm896iQ0@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+
   ```
 
 - Step 2: install all the dependencies using the command

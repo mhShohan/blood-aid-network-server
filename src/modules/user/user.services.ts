@@ -1,4 +1,4 @@
-import { Prisma, RequestStatus } from '@prisma/client';
+import { Prisma, RequestStatus, UserRole, UserStatus } from '@prisma/client';
 import httpStatus from 'http-status';
 import APIError from '../../errorHandler/APIError';
 import generateToken from '../../utils/generateToken';
@@ -246,6 +246,34 @@ class UserServices extends ConnectPrisma {
   }
 
   /**
+   * get All Users (nly for admin)
+   */
+  async getAllUsers(query: Record<string, unknown>) {
+    const page = query.page ? Number(query.page) : 1;
+    const limit = query.limit ? Number(query.limit) : 20;
+    const skip = (page - 1) * limit;
+
+
+    const result = await this.prisma.user.findMany({
+      skip,
+      take: limit,
+      include: { userProfile: true },
+    });
+
+    const total = await this.prisma.user.count();
+
+    return {
+      data: result,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPage: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  /**
    * get donation Request
    */
   async getAllDonationRequest(id: string) {
@@ -349,6 +377,20 @@ class UserServices extends ConnectPrisma {
       lastDonationDate: user?.userProfile?.lastDonationDate,
       userProfile: user?.userProfile,
     };
+  }
+
+  /**
+   * update user role
+   */
+  async updateRole(id: string, payload: { role: UserRole }) {
+    return this.prisma.user.update({ where: { id }, data: { role: payload.role } });
+  }
+
+  /**
+   * update user role
+   */
+  async updateStatus(id: string, payload: { status: UserStatus }) {
+    return this.prisma.user.update({ where: { id }, data: { status: payload.status } });
   }
 }
 

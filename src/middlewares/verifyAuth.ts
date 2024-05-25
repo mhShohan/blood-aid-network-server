@@ -14,7 +14,7 @@ const verifyAuth: RequestHandler = (req, _res, next) => {
       req.user = {
         id: decode?.id,
         email: decode?.email,
-        name: decode.name,
+        role: decode.role,
       };
 
       next();

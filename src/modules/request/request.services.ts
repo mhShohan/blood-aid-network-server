@@ -3,6 +3,8 @@ import ConnectPrisma from '../ConnectPrisma';
 import { IBloodRequest } from './request.interface';
 import APIError from '../../errorHandler/APIError';
 import httpStatus from 'http-status';
+import { bloodGroupList } from '../../constants';
+import { TBloodGroup } from '../../interfaces/common';
 
 class RequestServices extends ConnectPrisma {
   /**
@@ -102,11 +104,19 @@ class RequestServices extends ConnectPrisma {
     const limit = query.limit ? Number(query.limit) : 9;
     const skip = (page - 1) * limit;
 
+    const filter: Record<string, unknown> = {
+      requestStatus: 'PENDING'
+    }
+
+    if (query.bloodType && bloodGroupList.includes(query.bloodType as TBloodGroup)) {
+      filter.bloodType = query.bloodType as string;
+    }
+
 
     const requests = await this.prisma.request.findMany({
       skip,
       take: limit,
-      where: { requestStatus: 'PENDING' },
+      where: { ...filter },
       include: {
         requester: {
           include: {

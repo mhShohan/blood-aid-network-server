@@ -3,6 +3,7 @@ import userControllers from './user.controllers';
 import validateRequest from '../../middlewares/validateRequest';
 import userValidator from './user.validator';
 import verifyAuth from '../../middlewares/verifyAuth';
+import verifyRole from '../../middlewares/verifyRole';
 
 const userRoutes = Router();
 
@@ -38,5 +39,9 @@ userRoutes.patch(
 userRoutes.get('/profile/self', verifyAuth, userControllers.getProfile);
 userRoutes.patch('/profile/change-password', verifyAuth, validateRequest(userValidator.changePasswordSchema), userControllers.changePassword);
 userRoutes.patch('/profile/:id', verifyAuth, validateRequest(userValidator.updateUserSchema), userControllers.updateProfile);
+
+userRoutes.get('/users', verifyAuth, verifyRole(['ADMIN']), userControllers.getAllUsers);
+userRoutes.patch('/users/:id/role', verifyAuth, verifyRole(['ADMIN']), userControllers.updateRole);
+userRoutes.patch('/users/:id/status', verifyAuth, verifyRole(['ADMIN']), userControllers.updateStatus);
 
 export default userRoutes;
