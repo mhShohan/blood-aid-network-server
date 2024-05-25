@@ -2,6 +2,7 @@ import { RequestStatus } from '@prisma/client';
 import ConnectPrisma from '../ConnectPrisma';
 import { IBloodRequest } from './request.interface';
 import APIError from '../../errorHandler/APIError';
+import httpStatus from 'http-status';
 
 class RequestServices extends ConnectPrisma {
   /**
@@ -57,10 +58,12 @@ class RequestServices extends ConnectPrisma {
     const donor = await this.prisma.user.findUnique({ where: { id: payload.donorId } });
     if (!donor) throw new APIError(404, 'Donor not found');
 
+    const requester = await this.prisma.user.findUnique({ where: { id: payload.requesterId } });
+    if (!requester) throw new APIError(404, 'Requester not found');
+
     const requestData = await this.prisma.request.create({
       data: {
-        donorId: payload.donorId,
-        requesterId: payload.requesterId,
+        donorId: payload.requesterId,
         bloodType: donor.bloodType,
         numberOfBag: payload.body.numberOfBag as number,
         phoneNumber: payload.body.phoneNumber as string,
@@ -70,6 +73,25 @@ class RequestServices extends ConnectPrisma {
     });
 
     return requestData
+  }
+  /**
+   * Update donation request status
+   */
+  async acceptDonationRequest(requestId: string, userId: string) {
+    const request = await this.prisma.request.findUnique({ where: { id: requestId } });
+    if (!request) throw new APIError(httpStatus.BAD_REQUEST, 'Request not found');
+
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new APIError(httpStatus.BAD_REQUEST, 'User not found');
+
+    if (request.requesterId === user.id) throw new APIError(httpStatus.FORBIDDEN, 'You can not accept your own request');
+
+    return await this.prisma.request.update({
+      where: { id: request.id }, data: {
+        donorId: user.id,
+        requestStatus: RequestStatus.APPROVED
+      }
+    });
   }
 
   /**

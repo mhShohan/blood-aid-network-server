@@ -68,6 +68,20 @@ class RequestControllers {
     });
   });
 
+  /**
+   * accept Donation Request
+   */
+  acceptDonationRequest = asyncHandler(async (req, res) => {
+    const result = await this.services.acceptDonationRequest(req.params.id, req.user.id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'Donation Request accepted!',
+      success: true,
+      data: result,
+    });
+  });
+
 
 }
 

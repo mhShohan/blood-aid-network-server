@@ -251,12 +251,15 @@ class UserServices extends ConnectPrisma {
   async getAllDonationRequest(id: string) {
     const donor = await this.prisma.user.findUnique({
       where: { id }, include: {
-        requestes: {
-          include: { requester: true }
+        donate: {
+          where: { requestStatus: { not: { equals: RequestStatus.APPROVED } } },
+          include: {
+            requester: true
+          }
         }
       }
     });
-    return donor?.requestes
+    return donor?.donate
   }
 
   /**
@@ -266,6 +269,7 @@ class UserServices extends ConnectPrisma {
     const donor = await this.prisma.user.findUnique({
       where: { id }, include: {
         donate: {
+          where: { requestStatus: RequestStatus.APPROVED },
           include: {
             requester: true
           }

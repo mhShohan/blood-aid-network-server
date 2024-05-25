@@ -13,6 +13,12 @@ requestRoutes.post(
   requestControllers.createDonationRequest
 );
 
+requestRoutes.patch(
+  '/:id',
+  verifyAuth,
+  requestControllers.acceptDonationRequest
+);
+
 requestRoutes.post(
   '/:id',
   verifyAuth,
