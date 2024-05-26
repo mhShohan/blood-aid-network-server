@@ -1,8 +1,10 @@
-### Blood Aid Network (server)
+# Blood Aid Network (server)
 
 The Blood Donation website is a user-centric platform designed to facilitate blood donations by connecting donors with recipients. It includes features for searching and filtering donors, detailed donor profiles, user account management, and administrative tools for overseeing site activity and user accounts. The aim is to promote and streamline the process of blood donation, ensuring that those in need can easily find willing donors and that the donation process is secure, efficient, and user-friendly.
 
-# Live link: https://blood-aid-network.vercel.app
+# Live Site: https://blood-aid-network.vercel.app
+
+# Client Repo: https://github.com/mhShohan/blood-aid-network-client
 
 # Server link: https://blood-aid-network-server.vercel.app
 
@@ -34,10 +36,6 @@ The Blood Donation website is a user-centric platform designed to facilitate blo
     NODE_ENV=dev
     PORT=8000
     JWT_ACCESS_SECRET="4d1216db387c24a42ce2f1f9dbbf106fc5011660b107d988202d47016cf4f7fc14dfa677a4c5a504b96f86cdece62e7bfd19246de25d6840126edb4a4a1587a0"
-
-    SUPABASE_PASS=9zRf84HEFPYYrjLs
-    BLOOD_DONATION_PASS=rpCH7S2fIm896iQ0
-
 
     # Connect to Supabase via connection pooling with Supavisor.
     DATABASE_URL="postgres://postgres.gkhfwmeijcutxhzhtjge:rpCH7S2fIm896iQ0@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
