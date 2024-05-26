@@ -5,7 +5,7 @@ import config from './config';
 import globalErrorHandler from './middlewares/globalErrorhandler';
 import notFound from './middlewares/notFound';
 import rootRoutes from './routes';
-import liveDB from './lib/liveDB';
+import healthCheckRoute from './routes/heathRoutes';
 
 const app: Application = express();
 
@@ -17,8 +17,9 @@ if (config.NODE_ENV === 'dev') {
   app.use(morgan('dev'));
 }
 
-setInterval(liveDB, 12 * 60 * 60 * 1000);
-// setInterval(liveDB, 2000);
+
+// health check route
+app.get('/health', healthCheckRoute);
 
 // application routes
 app.use('/api/v1', rootRoutes);

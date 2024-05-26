@@ -1,12 +1,14 @@
 import { Server, createServer } from 'http';
 import app from './app';
 import config from './config';
+import liveDB from './lib/liveDB';
 
 let server: Server = createServer(app);
 
 async function main() {
   try {
     server = server.listen(config.PORT, () => {
+      setInterval(liveDB, 12 * 60 * 60 * 1000);
       console.log(`Server is listening on port ${config.PORT}`);
     });
   } catch (err) {

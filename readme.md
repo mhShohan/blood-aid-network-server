@@ -1,14 +1,30 @@
-### Fullstack Assignment 8 - Blood Donation Application
+### Blood Aid Network (server)
 
-# Live link: https://blood-donation-hub.vercel.app
+The Blood Donation website is a user-centric platform designed to facilitate blood donations by connecting donors with recipients. It includes features for searching and filtering donors, detailed donor profiles, user account management, and administrative tools for overseeing site activity and user accounts. The aim is to promote and streamline the process of blood donation, ensuring that those in need can easily find willing donors and that the donation process is secure, efficient, and user-friendly.
+
+# Live link: https://blood-aid-network.vercel.app
+
+# Server link: https://blood-aid-network-server.vercel.app
 
 ### Technologies:
 
 - Typescript
 - Node.js
 - Express.js
-- Prisma and PostgreSQL
+- PostgreSQL
+- Prisma
 - JWT
+
+### Features
+
+- User registration and login
+- Search for blood donors by location and blood type
+- Send blood request and View all blood requests
+- User profile management (view, edit and change password)
+- Donation history tracking and view your incoming blood requests
+- Admin dashboard for managing users and update users status and role
+- Mobile-friendly responsive design
+- Secure authentication and data encryption
 
 ## Instruction to run the application local
 
@@ -50,13 +66,3 @@
     #then
     npm start
   ```
-
-### Features
-
-1. User registration - User can register a new account
-2. User login - User can login into their existing account with email and password
-3. Get all donar list with filter, search, pagination and sorting
-4. Request for blood by user as a donar
-5. Get All of my donation request
-6. Update donation request status
-7. Get my profile

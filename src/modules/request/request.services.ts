@@ -65,7 +65,8 @@ class RequestServices extends ConnectPrisma {
 
     const requestData = await this.prisma.request.create({
       data: {
-        donorId: payload.requesterId,
+        donorId: donor.id,
+        requesterId: requester.id,
         bloodType: donor.bloodType,
         numberOfBag: payload.body.numberOfBag as number,
         phoneNumber: payload.body.phoneNumber as string,
