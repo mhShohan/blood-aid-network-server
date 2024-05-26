@@ -16,7 +16,7 @@ const registerSchema = z.object({
     .string({
       required_error: 'Date Of Birth field is required',
     }),
-  lastDonationDate: z.string({ required_error: 'Last Donation Date field is required' }),
+  lastDonationDate: z.string({ required_error: 'Last Donation Date field is required' }).optional(),
 });
 
 const loginSchema = z.object({

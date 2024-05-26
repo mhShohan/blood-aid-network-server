@@ -39,7 +39,7 @@ class UserServices extends ConnectPrisma {
         data: {
           userId: user.id,
           dateOfBirth: payload.dateOfBirth,
-          lastDonationDate: payload.lastDonationDate,
+          lastDonationDate: payload?.lastDonationDate,
         },
       });
 

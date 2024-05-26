@@ -60,7 +60,7 @@ model UserProfile {
   bio              String?
   profilePicture   String?
   dateOfBirth      String
-  lastDonationDate String
+  lastDonationDate String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   // User relation

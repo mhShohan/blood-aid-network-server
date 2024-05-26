@@ -11,7 +11,7 @@ export interface IUserRegister {
   location: string;
   dateOfBirth: string;
   bio: string;
-  lastDonationDate: string;
+  lastDonationDate?: string;
 }
 
 export interface IDonarRequest {
