@@ -149,7 +149,7 @@ class UserServices extends ConnectPrisma {
       orderBy.userProfile = {};
       orderBy.userProfile.lastDonationDate = query.sortOrder ? query.sortOrder : 'asc';
     } else {
-      orderBy.createdAt = 'asc';
+      orderBy.createdAt = 'desc';
     }
 
     const data = await this.prisma.user.findMany({
@@ -290,6 +290,22 @@ class UserServices extends ConnectPrisma {
     return donor?.donate
   }
 
+  /**
+   * get my requests
+   */
+  async getMyRequests(id: string) {
+    const donor = await this.prisma.user.findUnique({
+      where: { id }, include: {
+        requestes: {
+          include: {
+            donor: true
+          }
+        },
+      }
+    });
+
+    return donor?.requestes
+  }
   /**
    * get donation Request
    */

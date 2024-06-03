@@ -107,6 +107,20 @@ class UserControllers {
   });
 
   /**
+   * Get my all requests
+   */
+  getMyRequests = asyncHandler(async (req, res) => {
+    const result = await this.services.getMyRequests(req.user.id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: 'My requests retrieved successfully',
+      success: true,
+      data: result,
+    });
+  });
+
+  /**
    * Update Donation request status
    */
   updateDonationRequestStatus = asyncHandler(async (req, res) => {
